@@ -7,7 +7,7 @@ const cors = require('cors');
 const methodOverride = require("method-override")
 
 // Import the controller file
-const ToDoRouter = require('./controllers/ToDoController.js');
+const ToDoListsRouter = require('./controllers/ToDoListsController.js');
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -20,7 +20,7 @@ app.use(express.json()); // Formats the data for Fetch and Ajax use. Similar to 
 app.use(methodOverride("_method"));
 
 // Add the JukeboxRouter to the `/tracks` route
-app.use('/tasks', ToDoRouter);
+app.use('/todo-lists', ToDoListsRouter);
 
 
 
