@@ -131,14 +131,11 @@ router.get('/:listId/tasks', async (req, res) => {
 // READ - GET - SHOW ROUTE- /tasks/:tasksId
 router.get('/:listId/tasks/:taskId', async (req, res) => {
     try {
-        // Add query to find a single task
-        const foundList = await ToDoList.findById(req.params.listId);
-        // Add error handling if a task is not found
-        if (!foundList) {
-            res.status(404);
-            throw new Error('List not found.');
-        }
-        res.status(200).json(foundList); // 200 OK
+        // Finds ToDo list
+        const foundList = await ToDoList.findById(req.params.listId)
+        const foundTask = foundList.tasks.id(req.params.taskId)
+
+        res.status(200).json(foundTask); // 200 OK
     } catch (error) {
         // Add error handling code for 404 errors
         if (res.statusCode === 404) {
