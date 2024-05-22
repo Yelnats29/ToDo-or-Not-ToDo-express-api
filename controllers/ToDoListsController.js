@@ -151,8 +151,12 @@ router.get('/:listId/tasks/:taskId', async (req, res) => {
 // DELETE - DELETE - /tasks/:tasksId
 router.delete('/:listId/tasks/:taskId', async (req, res) => {
     try {
-        const deletedList = await ToDoList.findByIdAndDelete(req.params.listId)
-        res.status(200).json(deletedList)
+        // Finds ToDo list and task
+        const foundList = await ToDoList.findById(req.params.listId)
+        const deletedTask = foundList.tasks.pull(req.params.taskId)
+        foundList.save()
+
+        res.status(200).json(deletedTask); // 200 OK
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
