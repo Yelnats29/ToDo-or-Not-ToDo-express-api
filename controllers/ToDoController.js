@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ToDo = require('../models/ToDoSchema.js');
+const ToDoList = require('../models/ToDoListSchema.js');
 
 
 
@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
     // res.json({ message: 'Create Route' });
     try {
         // Create a new task with the data from req.body
-        const createdTask = await ToDo.create(req.body);
+        const createdTask = await ToDoList.create(req.body);
         res.status(201).json(createdTask); // 201 Created
     } catch (error) {
         // Setup for error handling
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
 // READ - GET - HOME PAGE - /tasks
 router.get('/', async (req, res) => {
     try {
-        const foundTask = await ToDo.find();
+        const foundTask = await ToDoList.find();
         res.status(200).json(foundTask);  // 200 OK
     } catch (error) {
         res.status(500).json({ error: error.message }); // 500 Internal Server Error
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 router.get('/:tasksId', async (req, res) => {
     try {
         // Add query to find a single task
-        const foundTask = await ToDo.findById(req.params.tasksId);
+        const foundTask = await ToDoList.findById(req.params.tasksId);
         // Add error handling if a task is not found
         if (!foundTask) {
             res.status(404);
@@ -57,7 +57,7 @@ router.get('/:tasksId', async (req, res) => {
 // DELETE - DELETE - /tasks/:tasksId
 router.delete('/:tasksId', async (req, res) => {
     try {
-        const deletedTask = await ToDo.findByIdAndDelete(req.params.tasksId)
+        const deletedTask = await ToDoList.findByIdAndDelete(req.params.tasksId)
         res.status(200).json(deletedTask)
     } catch (error) {
         res.status(404).json({ error: error.message })
@@ -69,7 +69,7 @@ router.delete('/:tasksId', async (req, res) => {
 router.put('/:tasksId', async (req, res) => {
     try {
         // Add query to update a single task
-        const updatedTask = await ToDo.findByIdAndUpdate(req.params.tasksId, req.body);
+        const updatedTask = await ToDoList.findByIdAndUpdate(req.params.tasksId, req.body);
         // Add a check for a not found task
         if (!updatedTask) {
             res.status(404);
