@@ -5,6 +5,7 @@ const ToDoList = require('../models/ToDoListSchema.js');
 
 
 // CREATE - POST -  /tasks
+// create new ToDo list
 router.post('/', async (req, res) => {
     // Add a message to test the route on Postman
     // res.json({ message: 'Create Route' });
@@ -20,6 +21,7 @@ router.post('/', async (req, res) => {
 
 
 // READ - GET - HOME PAGE - /tasks
+// index for all lists
 router.get('/', async (req, res) => {
     try {
         const foundTask = await ToDoList.find();
@@ -32,16 +34,16 @@ router.get('/', async (req, res) => {
 
 
 // READ - GET - SHOW ROUTE- /tasks/:tasksId
-router.get('/:tasksId', async (req, res) => {
+router.get('/:listId', async (req, res) => {
     try {
         // Add query to find a single task
-        const foundTask = await ToDoList.findById(req.params.tasksId);
+        const foundList = await ToDoList.findById(req.params.listId);
         // Add error handling if a task is not found
-        if (!foundTask) {
+        if (!foundList) {
             res.status(404);
-            throw new Error('Task not found.');
+            throw new Error('List not found.');
         }
-        res.status(200).json(foundTask); // 200 OK
+        res.status(200).json(foundList); // 200 OK
     } catch (error) {
         // Add error handling code for 404 errors
         if (res.statusCode === 404) {
@@ -55,10 +57,10 @@ router.get('/:tasksId', async (req, res) => {
 
 
 // DELETE - DELETE - /tasks/:tasksId
-router.delete('/:tasksId', async (req, res) => {
+router.delete('/:listId', async (req, res) => {
     try {
-        const deletedTask = await ToDoList.findByIdAndDelete(req.params.tasksId)
-        res.status(200).json(deletedTask)
+        const deletedList = await ToDoList.findByIdAndDelete(req.params.listId)
+        res.status(200).json(deletedList)
     } catch (error) {
         res.status(404).json({ error: error.message })
     }
@@ -66,17 +68,17 @@ router.delete('/:tasksId', async (req, res) => {
 
 
 // UPDATE - PUT - /tasks/:tasksId
-router.put('/:tasksId', async (req, res) => {
+router.put('/:listId', async (req, res) => {
     try {
         // Add query to update a single task
-        const updatedTask = await ToDoList.findByIdAndUpdate(req.params.tasksId, req.body);
+        const updatedList = await ToDoList.findByIdAndUpdate(req.params.listId, req.body);
         // Add a check for a not found task
-        if (!updatedTask) {
+        if (!updatedList) {
             res.status(404);
             throw new Error('Task not found.');
         }
         // Add a JSON response with the updated task
-        res.status(200).json(updatedTask);
+        res.status(200).json(updatedList);
     } catch (error) {
         // Add code for errors
         if (res.statusCode === 404) {
