@@ -151,7 +151,7 @@ router.get('/:listId/tasks/:taskId', async (req, res) => {
 // DELETE - DELETE - /tasks/:tasksId
 router.delete('/:listId/tasks/:taskId', async (req, res) => {
     try {
-        // Finds ToDo list and task
+        // Finds ToDo task and deletes it
         const foundList = await ToDoList.findById(req.params.listId)
         const deletedTask = foundList.tasks.pull(req.params.taskId)
         foundList.save()
@@ -166,15 +166,28 @@ router.delete('/:listId/tasks/:taskId', async (req, res) => {
 // UPDATE - PUT - /tasks/:tasksId
 router.put('/:listId/tasks/:taskId', async (req, res) => {
     try {
-        // Add query to update a single task
-        const updatedList = await ToDoList.findByIdAndUpdate(req.params.listId, {"name": req.body.name});
+        // Finds ToDo task and updates it
+        const foundList = await ToDoList.findById(req.params.listId)
+        let foundTask = foundList.tasks.id(req.params.taskId)
+
+        // Loops through the keys of the updated task and
+        // updates the respective values of the task
+        const updatedTask = req.body
+        const updatedTaskKeys = Object.keys(updatedTask)
+        updatedTaskKeys.forEach( (key) => {
+            foundTask[key] = updatedTask[key]
+        })
+
+        // Saves the changes to the task at the list level
+        foundList.save()
+
         // Add a check for a not found task
-        if (!updatedList) {
+        if (!foundList) {
             res.status(404);
             throw new Error('Task not found.');
         }
         // Add a JSON response with the updated task
-        res.status(200).json(updatedList);
+        res.status(200).json(foundTask);
     } catch (error) {
         // Add code for errors
         if (res.statusCode === 404) {
