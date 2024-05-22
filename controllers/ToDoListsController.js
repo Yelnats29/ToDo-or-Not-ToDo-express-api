@@ -92,7 +92,6 @@ router.put('/:listId', async (req, res) => {
 // CREATE - POST -  /tasks
 // create new ToDo list
 router.post('/:listId/tasks', async (req, res) => {
-    
     // Add a message to test the route on Postman
     // res.json({ message: 'Create Route' });
     try {
@@ -117,8 +116,11 @@ router.post('/:listId/tasks', async (req, res) => {
 // index for all lists
 router.get('/:listId/tasks', async (req, res) => {
     try {
-        const foundTask = await ToDoList.find();
-        res.status(200).json(foundTask);  // 200 OK
+        // Finds ToDo list and returns its tasks
+        const foundList = await ToDoList.findById(req.params.listId)
+        const listTasks = foundList.tasks
+        
+        res.status(200).json(listTasks);  // 200 OK
     } catch (error) {
         res.status(500).json({ error: error.message }); // 500 Internal Server Error
     }
