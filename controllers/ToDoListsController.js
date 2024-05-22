@@ -3,7 +3,8 @@ const router = express.Router();
 const ToDoList = require('../models/ToDoListSchema.js');
 
 
-// CREATE - POST -  /tasks
+// =================== LISTS =================== //
+// CREATE - POST -  /todo-lists
 // create new ToDo list
 router.post('/', async (req, res) => {
     // Add a message to test the route on Postman
@@ -19,7 +20,7 @@ router.post('/', async (req, res) => {
 });
 
 
-// READ - GET - HOME PAGE - /tasks
+// READ - GET - HOME PAGE - /todo-lists
 // index for all lists
 router.get('/', async (req, res) => {
     try {
@@ -32,7 +33,8 @@ router.get('/', async (req, res) => {
 
 
 
-// READ - GET - SHOW ROUTE- /tasks/:tasksId
+// READ - GET - SHOW ROUTE- /todo-lists/:listId
+// show list
 router.get('/:listId', async (req, res) => {
     try {
         // Add query to find a single task
@@ -55,7 +57,8 @@ router.get('/:listId', async (req, res) => {
 });
 
 
-// DELETE - DELETE - /tasks/:tasksId
+// DELETE - DELETE - /todo-lists/:listId
+// delete list
 router.delete('/:listId', async (req, res) => {
     try {
         const deletedList = await ToDoList.findByIdAndDelete(req.params.listId)
@@ -66,7 +69,8 @@ router.delete('/:listId', async (req, res) => {
 });
 
 
-// UPDATE - PUT - /tasks/:tasksId
+// UPDATE - PUT - /todo-lists/:listId
+// update list
 router.put('/:listId', async (req, res) => {
     try {
         // Add query to update a single task
@@ -89,8 +93,8 @@ router.put('/:listId', async (req, res) => {
 });
 
 // ==================== TASKS ===================== //
-// CREATE - POST -  /tasks
-// create new ToDo list
+// CREATE - POST -  /todo-lists/:listId/tasks
+// create new ToDo list task
 router.post('/:listId/tasks', async (req, res) => {
     // Add a message to test the route on Postman
     // res.json({ message: 'Create Route' });
@@ -112,8 +116,8 @@ router.post('/:listId/tasks', async (req, res) => {
 });
 
 
-// READ - GET - HOME PAGE - /tasks
-// index for all lists
+// READ - GET - HOME PAGE - /todo-lists/:listId/tasks
+// index for all list tasks
 router.get('/:listId/tasks', async (req, res) => {
     try {
         // Finds ToDo list and returns its tasks
@@ -128,7 +132,8 @@ router.get('/:listId/tasks', async (req, res) => {
 
 
 
-// READ - GET - SHOW ROUTE- /tasks/:tasksId
+// READ - GET - SHOW ROUTE- /todo-lists/:listId/tasks/:taskId
+// show task in list
 router.get('/:listId/tasks/:taskId', async (req, res) => {
     try {
         // Finds ToDo list
@@ -148,7 +153,8 @@ router.get('/:listId/tasks/:taskId', async (req, res) => {
 });
 
 
-// DELETE - DELETE - /tasks/:tasksId
+// DELETE - DELETE - /todo-lists/:listId/tasks/:taskId
+// delete task from list
 router.delete('/:listId/tasks/:taskId', async (req, res) => {
     try {
         // Finds ToDo task and deletes it
@@ -163,7 +169,8 @@ router.delete('/:listId/tasks/:taskId', async (req, res) => {
 });
 
 
-// UPDATE - PUT - /tasks/:tasksId
+// UPDATE - PUT - /todo-lists/:listId/tasks/:taskId
+// update task in list
 router.put('/:listId/tasks/:taskId', async (req, res) => {
     try {
         // Finds ToDo task and updates it
