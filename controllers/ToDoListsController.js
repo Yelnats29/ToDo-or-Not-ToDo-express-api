@@ -71,7 +71,7 @@ router.delete('/:listId', async (req, res) => {
 router.put('/:listId', async (req, res) => {
     try {
         // Add query to update a single task
-        const updatedList = await ToDoList.findByIdAndUpdate(req.params.listId, req.body);
+        const updatedList = await ToDoList.findByIdAndUpdate(req.params.listId, {"name": req.body.name});
         // Add a check for a not found task
         if (!updatedList) {
             res.status(404);
