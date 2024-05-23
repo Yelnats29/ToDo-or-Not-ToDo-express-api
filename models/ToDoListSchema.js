@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const taskSchema = mongoose.Schema({
-  taskName: {
+  name: {
     type: String,
     required: true,
   },
@@ -16,7 +16,7 @@ const taskSchema = mongoose.Schema({
 })
 
 const toDoListSchema = mongoose.Schema({
-    listName: {
+    name: {
       type: String,
       required: true,
     },
