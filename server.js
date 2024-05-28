@@ -15,7 +15,7 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-app.use(cors({ origin: 'http://localhost:5173' })); // ONLY this host can now access this API
+app.use(cors()); // ONLY this host can now access this API
 app.use(express.json()); // Formats the data for Fetch and Ajax use. Similar to how the url extended allow for req.body use.
 app.use(methodOverride("_method"));
 
