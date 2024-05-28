@@ -1,7 +1,35 @@
 const express = require('express');
 const router = express.Router();
 const ToDoList = require('../models/ToDoListSchema.js');
+const DayList = require('../models/DayList.js')
 
+
+// ================= CALENDAR ================== //
+// create new day list
+router.post('/calendar', async (req, res) => {
+    console.log('running new post...');
+
+    // Add a message to test the route on Postman
+    // res.json({ message: 'Create Route' });
+    try {
+        // Create a new task with the data from req.body
+        const createdTask = await DayList.create(req.body);
+        res.status(201).json(createdTask); // 201 Created
+    } catch (error) {
+        // Setup for error handling
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// index for all day lists
+router.get('/calendar', async (req, res) => {
+    try {
+        const allDays = await DayList.find();
+        res.status(200).json(allDays);  // 200 OK
+    } catch (error) {
+        res.status(500).json({ error: error.message }); // 500 Internal Server Error
+    }
+});
 
 // =================== LISTS =================== //
 // CREATE - POST -  /todo-lists
