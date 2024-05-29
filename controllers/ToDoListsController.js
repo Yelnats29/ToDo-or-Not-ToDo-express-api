@@ -7,10 +7,6 @@ const DayList = require('../models/DayList.js')
 // ================= CALENDAR ================== //
 // create new day list
 router.post('/calendar', async (req, res) => {
-    console.log('running new post...');
-
-    // Add a message to test the route on Postman
-    // res.json({ message: 'Create Route' });
     try {
         // Create a new task with the data from req.body
         const createdTask = await DayList.create(req.body);
@@ -28,6 +24,28 @@ router.get('/calendar', async (req, res) => {
         res.status(200).json(allDays);  // 200 OK
     } catch (error) {
         res.status(500).json({ error: error.message }); // 500 Internal Server Error
+    }
+});
+
+// show list
+router.get('/calendar/:dayId', async (req, res) => {
+    try {
+        // Add query to find a single task
+        const foundDay = await DayList.findById(req.params.dayId);
+        // Add error handling if a task is not found
+        if (!foundList) {
+            res.status(404);
+            throw new Error('List not found.');
+        }
+        res.status(200).json(foundDay); // 200 OK
+    } catch (error) {
+        // Add error handling code for 404 errors
+        if (res.statusCode === 404) {
+            res.json({ error: error.message });
+        } else {
+            // Add else statement to handle all other errors
+            res.status(500).json({ error: error.message });
+        }
     }
 });
 
